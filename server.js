@@ -27,12 +27,11 @@ var server = http.createServer(function (req, res) {
                     res.writeHead(500);
                     res.end();
                 } else {
-					res.write('<html><head><title>Listing for ' + filename + '</title></head><body><h1>Listing for <pre>' + filename + '</pre></h1>');
-                    //res.write(data.join('<br>'));
-					data.forEach(function (item) {
-						res.write('<pre><a href="' + req.url + (req.url[req.url.length - 1] === '/' ? '' : '/') + item + '">' + item + '</a></pre>');
-					});
-					res.end('</body></html>');
+                    res.write('<html><head><title>Listing for ' + filename + '</title></head><body><h1>Listing for <pre>' + filename + '</pre></h1>');
+                    data.forEach(function (item) {
+                        res.write('<pre><a href="' + req.url + (req.url[req.url.length - 1] === '/' ? '' : '/') + item + '">' + item + '</a></pre>');
+                    });
+                    res.end('</body></html>');
                 }
             });
         } else {
