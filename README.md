@@ -4,8 +4,8 @@ One-file HTTP server for static files.
 Put it in your directory and start it:
 
 ```
-git clone https://github.com/bteixeira/supersimplehttpserver.git
-node supersimplehttpserver/server
+wget https://raw.githubusercontent.com/bteixeira/supersimplehttpserver/master/server.js
+node server
 ```
 
 Optionally pass in a port number as a single argument
