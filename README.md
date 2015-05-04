@@ -10,7 +10,7 @@ node server
 
 Optionally pass in a port number as a single argument
 ```
-node supersimplehttpserver/server 9002
+node server 9002
 ```
 
 Notice that the default port is 9001, which is over nine thousand.  
