@@ -5,7 +5,7 @@ var server = http.createServer(function (req, res) {
     /* Log every request */
     console.log(`[${new Date()}] [${req.socket.address().address}] ${req.url}`);
 
-    var filename = '.' + req.url;
+    var filename = '.' + decodeURI(req.url);
     try {
         var stat = fs.statSync(filename);
         if (stat.isFile()) {
