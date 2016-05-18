@@ -6,9 +6,12 @@ var server = http.createServer(function (req, res) {
     console.log(`[${new Date()}] [${req.socket.address().address}] ${req.url}`);
 
     var filename = '.' + decodeURI(req.url);
-    try {
-        var stat = fs.statSync(filename);
-        if (stat.isFile()) {
+    fs.stat(filename, function(err, stat) {
+        if (err) {
+            console.log(`Returning 404: ${err.message}`);
+            res.writeHead(404);
+            res.end(`File not found: "${filename}"`);
+        } else if (stat.isFile()) {
             /* Send file if it exists */
             fs.createReadStream(filename).pipe(res);
         } else if (stat.isDirectory()) {
@@ -38,12 +41,7 @@ var server = http.createServer(function (req, res) {
             res.writeHead(403);
             res.end();
         }
-    } catch (e) {
-        console.log(`Returning 404: ${e.message}`);
-        res.writeHead(404);
-        res.end(`File not found: "${filename}"`);
-    }
-
+    });
 });
 
 var port = parseInt(process.argv[2], 10) || 9001;
