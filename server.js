@@ -3,7 +3,7 @@ var fs = require('fs');
 
 var server = http.createServer(function (req, res) {
     /* Log every request */
-    console.log('[' + new Date() + '] ' + req.url);
+    console.log(`[${new Date()}] [${req.socket.address().address}] ${req.url}`);
 
     var filename = '.' + req.url;
     try {
@@ -15,12 +15,12 @@ var server = http.createServer(function (req, res) {
             /* List dir contents if it exists */
             fs.readdir(filename, function (err, data) {
                 if (err) {
-                    console.error('error reading dir "' + filename + '": ' + err);
+                    console.error(`Error reading dir "${filename}": ${err}`);
                     res.writeHead(500);
                     res.end();
                 } else {
                     var parent = req.url + (req.url[req.url.length - 1] === '/' ? '' : '/');
-                    res.write(`
+                    res.end(`
                         <html>
                         <head><title>Listing for ${filename}</title></head>
                         <body>
@@ -34,14 +34,14 @@ var server = http.createServer(function (req, res) {
                 }
             });
         } else {
-            console.error('Path is neither file nor directory, I don\'t know what to do');
+            console.error(`Path "${filename}" is neither file nor directory, I don't know what to do`);
             res.writeHead(403);
             res.end();
         }
     } catch (e) {
-        console.log('returning 404:', e.message);
+        console.log(`Returning 404: ${e.message}`);
         res.writeHead(404);
-        res.end('File not found! ' + filename);
+        res.end(`File not found: "${filename}"`);
     }
 
 });
